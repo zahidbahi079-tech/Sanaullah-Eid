@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes" />
+<title>Eid-ul-Adha | VIP Card by Ramzan Sanaullah</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Cinzel+Decorative:wght@700&family=Great+Vibes&display=swap');
+
+*{margin:0;padding:0;box-sizing:border-box;}
+body{
+  background: radial-gradient(circle at center, #0a1a3a 0%, #030c1a 100%);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-family:'Amiri',serif;
+  color:#fff;
+  overflow-x:hidden;
+  overflow-y:auto;
+}
+canvas{position:fixed;top:0;left:0;width:100%;height:100%;z-index:1;pointer-events:none;}
+.fanoos{position:absolute;width:40px;opacity:0.5;animation:floatUp 15s linear infinite;z-index:2;filter:drop-shadow(0 0 10px #ffd700);pointer-events:none;}
+.fanoos:nth-child(1){left:10%;animation-duration:20s;width:30px;}
+.fanoos:nth-child(2){left:85%;animation-duration:18s;width:50px;animation-delay:2s;}
+.fanoos:nth-child(3){left:50%;animation-duration:25s;width:35px;animation-delay:5s;}
+#gate-container{position:fixed;top:0;left:0;width:100vw;height:100vh;z-index:100;display:flex;transform-style:preserve-3d;}
+.gate{width:50vw;height:100vh;background:linear-gradient(135deg,#0d2b45 0%,#051a2a 100%);position:relative;transition:transform 2s cubic-bezier(0.25,1,0.5,1);display:flex;align-items:center;border:2px solid #ffd700;}
+.gate::before{content:"";position:absolute;width:100%;height:100%;background-image:repeating-linear-gradient(45deg,transparent,transparent 20px,rgba(255,215,0,0.05) 20px,rgba(255,215,0,0.05) 40px);}
+#gate-left{transform-origin:left;border-right:5px solid #ffd700;box-shadow:inset -10px 0 30px rgba(0,0,0,0.8);}
+#gate-right{transform-origin:right;border-left:5px solid #ffd700;box-shadow:inset 10px 0 30px rgba(0,0,0,0.8);}
+
+/* STYLISH OPEN BUTTON */
+#open-btn{
+  position:absolute;
+  top:50%;
+  left:50%;
+  transform:translate(-50%,-50%) translateZ(30px);
+  width:160px;
+  height:160px;
+  background:radial-gradient(circle at 30% 20%, #fff8e7, #ffd700, #b8860b);
+  border-radius:50%;
+  z-index:101;
+  cursor:pointer;
+  box-shadow:0 0 50px rgba(255,215,0,0.8), inset 0 0 30px rgba(255,255,255,0.6), 0 0 0 8px rgba(255,215,0,0.3);
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  border:3px solid #fff;
+  animation:pulse3D 2s infinite;
+  transition:0.4s ease-in-out;
+}
+#open-btn:hover{
+  transform:translate(-50%,-50%) translateZ(40px) scale(1.05);
+  box-shadow:0 0 70px rgba(255,215,0,1), inset 0 0 40px rgba(255,255,255,0.8);
+}
+#open-btn span{
+  font-family:'Cinzel Decorative',cursive;
+  color:#2c1f00;
+  font-size:1.8rem;
+  text-shadow:2px 2px 4px rgba(255,255,255,0.5);
+  letter-spacing:3px;
+}
+.tap-hint{
+  font-size:0.8rem;
+  margin-top:8px;
+  color:#fff;
+  text-shadow:0 0 5px #000;
+  letter-spacing:3px;
+  background:rgba(0,0,0,0.3);
+  padding:4px 12px;
+  border-radius:30px;
+}
+
+/* Card Wrapper */
+#card-wrapper{
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 10;
+  padding: 20px;
+}
+
+/* Card */
+#card{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 25px 20px;
+  width: 95%;
+  max-width: 480px;
+  background: rgba(10, 30, 50, 0.92);
+  border: 2px solid rgba(255, 215, 0, 0.6);
+  border-radius: 25px;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.8), inset 0 0 30px rgba(255,215,0,0.15);
+  backdrop-filter: blur(12px);
+  position: relative;
+  margin: 0;
+}
+.glare{
+  position:absolute;
+  top:-50%;
+  left:-50%;
+  width:200%;
+  height:200%;
+  background:radial-gradient(circle at 50% 50%,rgba(255,255,255,0.1),transparent 50%);
+  pointer-events:none;
+}
+
+/* Bismillah - Completely inside card, fixed */
+.bismillah{
+  font-family: 'Amiri', serif;
+  font-size: 1.4rem;
+  font-weight: 200;
+  color: #ffd700;
+  margin-bottom: 20px;
+  text-shadow: 0 0 10px rgba(255,215,0,0.7);
+  text-align: center;
+  width: 80%;
+  letter-spacing: 2px;
+  background: rgba(0,0,0,0.2);
+  padding: 5px 35px;
+  border-radius: 40px;
+  display: inline-block;
+  width: auto;
+}
+.moon-icon{font-size:3.2rem;filter:drop-shadow(0 0 18px #ffd700);animation:float 3s infinite ease-in-out;margin-bottom:8px;}
+.text-3d{font-family:'Cinzel Decorative',cursive;font-size:2rem;margin-bottom:12px;color:#ffdf73;text-shadow:0px 1px 0px #b38728,0px 2px 0px #b38728,0px 3px 0px #8a6d1c,0px 6px 12px rgba(0,0,0,0.6);text-align:center;}
+.message-box{width:100%;min-height:110px;padding:12px;background:rgba(0,0,0,0.4);border-left:3px solid #ffd700;border-right:3px solid #ffd700;border-radius:12px;}
+.typewriter-text{font-size:1rem;line-height:1.5;color:#f1f1f1;white-space:pre-wrap;text-align:center;}
+.typing-cursor{display:inline-block;width:2px;height:1rem;background-color:#ffd700;animation:blink 0.7s infinite;}
+.divider{width:75%;height:1px;background:linear-gradient(90deg,transparent,#ffd700,transparent);margin:12px 0;}
+.from{font-size:2.2rem;font-family:'Great Vibes',cursive;color:#ffd700;text-shadow:0 0 12px rgba(255,215,0,0.7);margin-bottom:12px;text-align:center;}
+
+/* VIP STYLISH BOX */
+.vip-box{width:100%;background:linear-gradient(135deg,rgba(0,0,0,0.7),rgba(30,20,5,0.8));border-radius:18px;padding:15px 12px;position:relative;overflow:hidden;box-shadow:0 0 8px rgba(255,215,0,0.4);margin-top:5px;}
+.vip-box::before{content:"";position:absolute;top:-2px;left:-2px;right:-2px;bottom:-2px;background:linear-gradient(45deg,#ffd700,#ff8c00,#ffd700,#ff8c00,#ffd700);background-size:400% 400%;border-radius:18px;z-index:-1;animation:lightning 3s ease infinite;filter:blur(6px);opacity:0.6;}
+.vip-title{font-family:'Cinzel Decorative',cursive;font-size:1.1rem;color:#ffdf73;text-align:center;margin-bottom:10px;text-shadow:0 0 8px #ff8c00;display:flex;align-items:center;justify-content:center;gap:8px;}
+.stylish-input{width:100%;padding:12px;border-radius:40px;border:2px solid rgba(255,215,0,0.5);background:rgba(0,0,0,0.7);color:#fff;text-align:center;font-size:0.9rem;outline:none;margin-bottom:10px;}
+.stylish-input:focus{border-color:#ffd700;box-shadow:0 0 15px rgba(255,215,0,0.5);}
+.vip-send-btn{width:100%;padding:12px;background:linear-gradient(135deg,#ffd700,#ff8c00,#ffd700);border:none;border-radius:40px;color:#1a0f00;font-family:'Cinzel Decorative',cursive;font-size:1rem;font-weight:bold;cursor:pointer;box-shadow:0 0 12px rgba(255,140,0,0.7);display:flex;align-items:center;justify-content:center;gap:8px;animation:btnGlow 2s infinite;}
+
+/* Dua Box */
+.dua-box{width:100%;margin-top:15px;padding:12px 10px;background:rgba(0,0,0,0.35);border-left:2px solid #ffd700;border-right:2px solid #ffd700;border-radius:10px;}
+.dua-text{font-family:'Amiri',serif;font-size:0.8rem;line-height:1.5;color:#ddd;}
+.dua-text p{margin:6px 0;}
+.dua-text p:first-child{border-bottom:1px dashed rgba(255,215,0,0.25);padding-bottom:6px;}
+
+#audio-btn{position:fixed;top:20px;right:20px;z-index:50;background:rgba(255,215,0,0.2);border:1px solid #ffd700;color:#ffd700;border-radius:50%;width:45px;height:45px;font-size:1.2rem;cursor:pointer;display:none;backdrop-filter:blur(5px);}
+.toast-msg{position:fixed;bottom:30px;left:50%;transform:translateX(-50%);background:rgba(255,215,0,0.95);color:#1a0f00;padding:8px 18px;border-radius:30px;font-family:'Cinzel Decorative',cursive;font-size:0.8rem;z-index:200;opacity:0;transition:0.3s;pointer-events:none;}
+
+/* ========== CONTACT SECTION (Card ke neeche, background mein) ========== */
+.contact-footer {
+  width: 100%;
+  display: none;
+  justify-content: center;
+  padding: 20px 15px 40px 15px;
+  z-index: 10;
+  position: relative;
+}
+
+.contact-card {
+  max-width: 480px;
+  width: 95%;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(10px);
+  border-radius: 20px;
+  padding: 20px 18px;
+  text-align: center;
+  border: 1px solid rgba(255, 215, 0, 0.4);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+}
+
+.contact-text {
+  font-family: 'Amiri', serif;
+  font-size: 0.9rem;
+  color: #ffdf73;
+  margin-bottom: 18px;
+  line-height: 1.6;
+  text-shadow: 0 0 5px rgba(0,0,0,0.5);
+}
+
+.social-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  flex-wrap: wrap;
+}
+
+.social-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 10px 22px;
+  border-radius: 50px;
+  font-family: 'Cinzel Decorative', cursive;
+  font-size: 0.85rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s;
+  border: none;
+  background: rgba(0, 0, 0, 0.7);
+  color: #fff;
+}
+
+.social-btn i {
+  font-size: 1.2rem;
+}
+
+/* WhatsApp Button */
+.btn-whatsapp {
+  background: linear-gradient(135deg, #075e54, #128c7e);
+  border: 1px solid #25d366;
+  box-shadow: 0 0 8px rgba(37, 211, 102, 0.4);
+}
+.btn-whatsapp:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 15px rgba(37, 211, 102, 0.7);
+}
+
+/* Facebook Button */
+.btn-facebook {
+  background: linear-gradient(135deg, #1e3c72, #2a5298);
+  border: 1px solid #3b5998;
+  box-shadow: 0 0 8px rgba(59, 89, 152, 0.4);
+}
+.btn-facebook:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 15px rgba(59, 89, 152, 0.7);
+}
+
+/* YouTube Button */
+.btn-youtube {
+  background: linear-gradient(135deg, #8b0000, #c4302b);
+  border: 1px solid #ff0000;
+  box-shadow: 0 0 8px rgba(255, 0, 0, 0.4);
+}
+.btn-youtube:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 15px rgba(255, 0, 0, 0.7);
+}
+
+@keyframes lightning{0%,100%{background-position:0% 50%;opacity:0.6;}50%{background-position:100% 50%;opacity:0.9;}}
+@keyframes btnGlow{0%,100%{box-shadow:0 0 12px rgba(255,140,0,0.7);}50%{box-shadow:0 0 22px rgba(255,215,0,0.9);}}
+@keyframes pulse3D{0%,100%{transform:translate(-50%,-50%) translateZ(30px) scale(1);}50%{transform:translate(-50%,-50%) translateZ(50px) scale(1.05);box-shadow:0 0 70px #ffea00,0 0 0 12px rgba(255,215,0,0.3);}}
+@keyframes float{0%,100%{transform:translateY(0);}50%{transform:translateY(-8px);}}
+@keyframes blink{0%,100%{opacity:1;}50%{opacity:0;}}
+@keyframes floatUp{0%{bottom:-100px;transform:rotate(0deg);opacity:0;}20%{opacity:0.5;}100%{bottom:100vh;transform:rotate(20deg);opacity:0;}}
+</style>
+</head>
+<body>
+
+<audio id="bg-music" loop>
+  <source src="https://n.f-a-k.workers.dev/eid-mubarak-to-every.mp3" type="audio/mp3" />
+</audio>
+
+<canvas id="particles"></canvas>
+
+<svg class="fanoos" viewBox="0 0 24 24" fill="none" stroke="#ffd700" stroke-width="1.5"><path d="M12 2L12 5M12 5H9.5L8 10H16L14.5 5H12ZM12 5V10M8 10L6 19H18L16 10M8 10H16M6 19H18M12 10V19M9 14.5H15M10.5 19L9 22H15L13.5 19"></path></svg>
+<svg class="fanoos" viewBox="0 0 24 24" fill="none" stroke="#ffd700" stroke-width="1.5"><path d="M12 2L12 5M12 5H9.5L8 10H16L14.5 5H12ZM12 5V10M8 10L6 19H18L16 10M8 10H16M6 19H18M12 10V19M9 14.5H15M10.5 19L9 22H15L13.5 19"></path></svg>
+<svg class="fanoos" viewBox="0 0 24 24" fill="none" stroke="#ffd700" stroke-width="1.5"><path d="M12 2L12 5M12 5H9.5L8 10H16L14.5 5H12ZM12 5V10M8 10L6 19H18L16 10M8 10H16M6 19H18M12 10V19M9 14.5H15M10.5 19L9 22H15L13.5 19"></path></svg>
+
+<button id="audio-btn" onclick="toggleAudio()">🔊</button>
+<div id="toast" class="toast-msg"></div>
+
+<div id="gate-container">
+  <div id="gate-left" class="gate"></div>
+  <div id="gate-right" class="gate"></div>
+  <div id="open-btn" onclick="openGates()"><span>OPEN</span><div class="tap-hint">Tap Here</div></div>
+</div>
+
+<div id="card-wrapper">
+  <div id="card">
+    <div class="glare" id="glare"></div>
+    <div class="bismillah">﷽</div>
+    <div class="moon-icon">🌙</div>
+    <h1 class="text-3d">Eid-ul-Adha</h1>
+    <div class="message-box">
+      <div class="typewriter-text"><span id="typed"></span><span class="typing-cursor"></span></div>
+    </div>
+    <div class="divider"></div>
+    <div class="from">Sanaullah Shahid</div>
+
+    <div class="vip-box">
+      <div class="vip-title">⚡ VIP GIFT ⚡</div>
+      <input type="text" id="vipMessage" class="stylish-input" placeholder="💝 Apna message likhein... 💝" />
+      <button class="vip-send-btn" onclick="sendVIPMessage()">🎁 Send VIP Wish 🎁</button>
+    </div>
+
+    <div class="dua-box">
+      <div class="dua-text">
+        <p>🌟 اللَّهُمَّ فِي هَذَا الْعِيدِ الْمُبَارَكِ، أَنْزِلْ رَحْمَتَكَ عَلَى مُؤَسَّسَتِنَا وَجَمِيعِ الْعَامِلِينَ فِيهَا. اللَّهُمَّ وَفِّقْنَا لِاتِّخَاذِ الْقَرَارَاتِ السَّدِيدَةِ، وَارْزُقْنَا الثَّبَاتَ فِي مُوَاجَهَةِ التَّحَدِّيَاتِ، وَامْنَحْنَا الْقُوَّةَ لِلنَّجَاحِ بِكُلِّ أَمَانَةٍ وَإِخْلَاصٍ. نَسْأَلُكَ أَنْ يَكُونَ هَذَا الْعِيدُ بَشِيرَ خَيْرٍ وَفَلَاحٍ لِشَرِكَتِنَا وَجَمِيعِ طَاقَمِنَا. آمِينَ.</p>
+        <p>یا اللہ! عید کے اس مبارک موقع پر ہمارے ادارے اور اس سے وابستہ تمام لوگوں پر اپنی رحمتیں نازل فرما۔ ہمیں درست فیصلے کرنے کی توفیق دے، مشکلات میں ثابت قدمی عطا فرما، اور ہمیں دیانتداری کے ساتھ ترقی کی منازل طے کرنے کی ہمت دے۔ اللہ کرے کہ یہ عید ہمارے پورے عملے اور کمپنی کے لیے خوشحالی اور کامیابی کا پیغام لائے۔ آمین۔</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CONTACT SECTION - Card ke neeche (background mein) -->
+<div id="contactFooter" class="contact-footer">
+  <div class="contact-card">
+    <div class="contact-text">
+      📞 Contact Sanaullah  Shahid to make digital website | logo | banner | thumbnail | social media design
+    </div>
+    <div class="social-buttons">
+      <button class="social-btn btn-whatsapp" onclick="openWhatsApp()">
+        <i class="fab fa-whatsapp"></i> WhatsApp
+      </button>
+      <button class="social-btn btn-facebook" onclick="showComingSoon()">
+        <i class="fab fa-facebook-f"></i> Facebook
+      </button>
+      <button class="social-btn btn-youtube" onclick="showComingSoon()">
+        <i class="fab fa-youtube"></i> YouTube
+      </button>
+    </div>
+  </div>
+</div>
+
+<script>
+let music=document.getElementById("bg-music");
+function openGates(){
+  music.volume=0.6;
+  let playPromise=music.play();
+  if(playPromise!==undefined){playPromise.then(_=>{document.getElementById('audio-btn').style.display='block';}).catch(e=>{let btn=document.getElementById("audio-btn");btn.innerHTML="🔇";btn.style.display='block';});}
+  document.getElementById('open-btn').style.transform="translate(-50%, -50%) translateZ(-200px) scale(0)";
+  document.getElementById('open-btn').style.opacity="0";
+  document.getElementById('gate-left').style.transform='rotateY(100deg)';
+  document.getElementById('gate-right').style.transform='rotateY(-100deg)';
+  setTimeout(()=>{
+    document.getElementById('gate-container').style.display='none';
+    document.getElementById('card-wrapper').style.display='flex';
+    document.getElementById('contactFooter').style.display='flex';
+    startParticles();
+    setTimeout(startTypewriter,1000);
+  },1200);
+}
+function toggleAudio(){let btn=document.getElementById("audio-btn");if(music.paused){music.play();btn.innerHTML="🔊";}else{music.pause();btn.innerHTML="🔇";}}
+
+const messageText="Assalamu Alaykum! ✨ Sanaullah ki taraf se aapko aur aapke poore family ko Eid-ul-Adha Mubarak ho!\n\nAllah aapki qurbani qabool farmaye aur aapko khushiyon se nawaze. Ameen! 🤲🐏";
+let i=0; const speed=40;
+function startTypewriter(){if(i<messageText.length){document.getElementById("typed").innerHTML+=messageText.charAt(i);i++;setTimeout(startTypewriter,speed);}else{document.querySelector('.typing-cursor').style.display='none';}}
+
+function sendVIPMessage(){
+  let userMessage = document.getElementById('vipMessage').value.trim();
+  if(!userMessage){
+    showToast("✨ Pehle apna message likhein ✨");
+    return;
+  }
+  let finalMessage = userMessage + " - Sanaullah";
+  let whatsappUrl = `https://api.whatsapp.com/send?phone=923074780627&text=${encodeURIComponent(finalMessage)}`;
+  window.open(whatsappUrl, '_blank');
+}
+
+// New Functions for Contact Section
+function openWhatsApp() {
+  let message = "Assalamu Alaykum! I need your services for digital design.";
+  let whatsappUrl = `https://api.whatsapp.com/send?phone=923074780627&text=${encodeURIComponent(message)}`;
+  window.open(whatsappUrl, '_blank');
+}
+
+function showComingSoon() {
+  showToast("✨ Coming Soon! Insha'Allah ✨");
+}
+
+function showToast(msg){
+  let toast = document.getElementById("toast");
+  toast.innerText = msg;
+  toast.style.opacity = "1";
+  setTimeout(()=>{toast.style.opacity = "0";}, 2000);
+}
+
+const canvas=document.getElementById('particles');const ctx=canvas.getContext('2d');canvas.width=window.innerWidth;canvas.height=window.innerHeight;
+let particlesArray=[];class Particle{constructor(){this.x=Math.random()*canvas.width;this.y=canvas.height+Math.random()*100;this.z=Math.random()*2+0.5;this.size=this.z*1.5;this.speedY=-(this.z*0.8);this.speedX=(Math.random()-0.5)*1;this.opacity=Math.random()*0.8+0.2;}update(){this.y+=this.speedY;this.x+=this.speedX;if(this.y<-10){this.y=canvas.height+10;this.x=Math.random()*canvas.width;}}draw(){ctx.fillStyle=`rgba(255,215,0,${this.opacity})`;ctx.shadowBlur=10;ctx.shadowColor='#ffd700';ctx.beginPath();ctx.arc(this.x,this.y,this.size,0,Math.PI*2);ctx.fill();}}
+function startParticles(){let numParticles=(canvas.width*canvas.height)/7000;for(let i=0;i<numParticles;i++)particlesArray.push(new Particle());function animate(){ctx.clearRect(0,0,canvas.width,canvas.height);particlesArray.forEach(p=>{p.update();p.draw();});requestAnimationFrame(animate);}animate();}
+window.addEventListener('resize',()=>{canvas.width=window.innerWidth;canvas.height=window.innerHeight;});
+
+window.addEventListener('click',e=>{
+  if(document.getElementById('card-wrapper').style.display==='flex'){createExplosion(e.clientX,e.clientY);}
+});
+function createExplosion(x,y){
+  for(let i=0;i<20;i++){
+    let spark=document.createElement('div');
+    spark.style.position='fixed';
+    spark.style.width='6px';
+    spark.style.height='6px';
+    spark.style.borderRadius='50%';
+    spark.style.background='#ffd700';
+    spark.style.left=x+'px';
+    spark.style.top=y+'px';
+    spark.style.pointerEvents='none';
+    spark.style.opacity='1';
+    spark.style.transition='transform 1s ease-out, opacity 1s ease-out';
+    spark.style.zIndex='9999';
+    document.body.appendChild(spark);
+    let angle = Math.random() * 2 * Math.PI;
+    let distance = Math.random() * 150 + 50;
+    let xMove = Math.cos(angle) * distance;
+    let yMove = Math.sin(angle) * distance;
+    setTimeout(() => {
+      spark.style.transform = `translate(${xMove}px, ${yMove}px) scale(0.5)`;
+      spark.style.opacity = '0';
+    }, 10);
+    setTimeout(() => {spark.remove();}, 1000);
+  }
+}
+</script>
+</body>
+</html>
